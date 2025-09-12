@@ -17,12 +17,11 @@ class ProductSerializer(serializers.ModelSerializer):
             'price',
             'active',
             'category',
-            'categories_id',
+            'category_id',
         ]
 
-
 def create(self, validated_data):
-    category_data = validated_data.pop('categories_id')
+    category_data = validated_data.pop('category_id')
 
     product = Product.objects.create(**validated_data)
     for category in category_data:
