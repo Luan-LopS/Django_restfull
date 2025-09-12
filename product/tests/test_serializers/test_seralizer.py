@@ -1,6 +1,6 @@
 from django.test import TestCase
-from .factories import CategoryFactory
-from .factories import ProductFactory
+from product.tests.factories import CategoryFactory
+from ..factories import ProductFactory
 from product.serializers.produtc_serializer import ProductSerializer
 from product.serializers.category_serializer import CategorySerializer
 

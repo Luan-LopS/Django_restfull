@@ -4,10 +4,13 @@ from product.serializers.produtc_serializer import ProductSerializer
 from product.models.product import Product
 
 
-
 class OrderSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(required=True, many=True)
-    products_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), write_only=True, many=True)
+    products = ProductSerializer(read_only=True, many=True)
+    products_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(),
+        write_only=True,
+        many=True
+        )
     total = serializers.SerializerMethodField()
 
     def get_total(self, instance):
