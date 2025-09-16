@@ -1,8 +1,10 @@
 import json
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
+from rest_framework.authtoken.models import Token
 from django.urls import reverse
 from ..factories import CategoryFactory, ProductFactory
+from order.tests.factories import UserFactory
 from product.models import Product, Category
 
 
@@ -10,25 +12,29 @@ class TestCategoryViewSet(APITestCase):
     client = APIClient()
 
     def setUp(self):
+        self.user = UserFactory()
+        token = Token.objects.create(user=self.user)
+        token.save()
         self.category = CategoryFactory(title='books')
 
     def test_get__all_category(self):
+        token = Token.objects.get(user__username=self.user.username)
+        self.client.credentials(HTTP_AUTHRIZATION='Token ' + token.key)
         response = self.client.get(
             reverse('category-list', kwargs={'version': 'v1'})
         )
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        category_data = json.loads(response.content)[0]
-        self.assertEqual(category_data['title'], self.category.title)
-        #self.assertEqual(product_data['slug'], )
+        #import pdb; pdb.set_trace() debug
 
-         #title',
-         #'slug',
-         #'description',
-         #'active'
+        category_data = json.loads(response.content)
+        self.assertEqual(category_data['results'][0]['title'], self.category.title)
+         #title',#'slug',#'description',#'active'
 
     def test_create_category(self):
+        token = Token.objects.get(user__username=self.user.username)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         data = {
                 'title': 'teste',
                 'slug': '01',
@@ -36,7 +42,7 @@ class TestCategoryViewSet(APITestCase):
                 'active': True
         }
 
-        #import pdb; pdb.set_trace() debug
+        #import pdb; pdb.set_trace() #debug
 
         response = self.client.post(
             reverse('category-list', kwargs={'version': 'v1'}),
