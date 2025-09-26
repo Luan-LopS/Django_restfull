@@ -3,7 +3,7 @@ name = "bookstore"
 version = "0.1.0"
 description = "bookstore API"
 authors = [
-    {name = "Luan-LopS",email = "luam10@hotmail.com.br"}
+    {name = "Luan-LopS",email = "luam@hotmail.com.br"}
 ]
 readme = "README.md"
 requires-python = ">=3.10"
