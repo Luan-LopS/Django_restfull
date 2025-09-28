@@ -35,7 +35,7 @@ WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml README.md ./
 
 # Instala somente dependências principais, sem dev e sem instalar o projeto
-RUN poetry install --only main --no-root --no-interaction --no-ansi
+RUN poetry install --no-root --no-interaction --no-ansi
 
 # Agora copia todo o código da aplicação para /app
 WORKDIR /app
@@ -45,4 +45,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Comando padrão para rodar o servidor de desenvolvimento Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
