@@ -5,7 +5,7 @@ jobs:
     name: Quality check
     runs-on: ubuntu-18.04
     steps:
-      - users: actions/checkout
+      - uses: actions/checkout
       - name: Set up Python
         uses: actions/setup-python@master
         with:
