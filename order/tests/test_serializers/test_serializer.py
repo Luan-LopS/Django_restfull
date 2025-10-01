@@ -15,8 +15,8 @@ class TestOrderSerializer(TestCase):
         serializer = OrderSerializer(order)
         data = serializer.data
 
-        self.assertEqual(data['user'], order.user.id)
+        self.assertEqual(data["user"], order.user.id)
 
-        self.assertEqual(data['total'], product1.price + product2.price)
-        self.assertEqual(len(data['products']), 2)
-        self.assertEqual(data['products'][0]['title'], product1.title)
+        self.assertEqual(data["total"], product1.price + product2.price)
+        self.assertEqual(len(data["products"]), 2)
+        self.assertEqual(data["products"][0]["title"], product1.title)

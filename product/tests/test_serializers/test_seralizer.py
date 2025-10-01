@@ -11,9 +11,11 @@ class Test_ProductSerializer(TestCase):
         serializer = ProductSerializer(product)
         data = serializer.data
 
-        self.assertEqual(data['title'], product.title)
-        self.assertAlmostEqual(float(data['price']), float(product.price), places=1)
-        self.assertEqual(data['category'], list(product.category.values_list('id', flat=True)))
+        self.assertEqual(data["title"], product.title)
+        self.assertAlmostEqual(float(data["price"]), float(product.price), places=1)
+        self.assertEqual(
+            data["category"], list(product.category.values_list("id", flat=True))
+        )
 
 
 class Teste_CategorySerializer(TestCase):
@@ -22,7 +24,7 @@ class Teste_CategorySerializer(TestCase):
         serializer = CategorySerializer(category)
         data = serializer.data
 
-        self.assertEqual(data['title'], category.title)
-        self.assertEqual(data['slug'], category.slug)
-        self.assertEqual(data['description'], category.description)
-        self.assertEqual(data['active'], category.active)
+        self.assertEqual(data["title"], category.title)
+        self.assertEqual(data["slug"], category.slug)
+        self.assertEqual(data["description"], category.description)
+        self.assertEqual(data["active"], category.active)

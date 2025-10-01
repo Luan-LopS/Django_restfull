@@ -1,0 +1,54 @@
+# Ignorar diretórios comuns
+__pycache__/
+*.py[cod]
+*.so
+
+# Ignorar ambientes virtuais
+env/
+venv/
+.venv/
+
+# Ignorar arquivos temporários
+*.log
+*.tmp
+*.swp
+*.bak
+*.pid
+
+# Ignorar configs locais e IDEs
+.vscode/
+.idea/
+*.iml
+
+# Ignorar controle de versão
+.git/
+.gitignore
+.gitattributes
+
+# Ignorar builds locais
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Ignorar testes e caches
+.tox/
+.pytest_cache/
+.coverage
+.coverage.*
+.mypy_cache/
+.dmypy.json
+.cache/
+.nox/
+.hypothesis/
+
+# Ignorar arquivos de configuração e variáveis sensíveis
+.env
+.env.*
+*.env
+
+# Ignorar notebooks temporários
+.ipynb_checkpoints/
+
+# Outros arquivos comuns de sistema
+.
