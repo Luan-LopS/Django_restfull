@@ -1,64 +1,48 @@
-FROM python:3.8.1-slim as python-base
+FROM python:3.11-slim AS python-base
 
-    # python
+# Variáveis de ambiente para otimizar Python, pip e Poetry
 ENV PYTHONUNBUFFERED=1 \
-    # prevents python creating .pyc files
     PYTHONDONTWRITEBYTECODE=1 \
-    \
-    # pip
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    \
-    # poetry
-    # https://python-poetry.org/docs/configuration/#using-environment-variables
-    POETRY_VERSION=1.0.3 \
-    # make poetry install to this location
+    POETRY_VERSION=2.2.0 \
     POETRY_HOME="/opt/poetry" \
-    # make poetry create the virtual environment in the project's root
-    # it gets named `.venv`
     POETRY_VIRTUALENVS_IN_PROJECT=true \
-    # do not ask any interactive question
     POETRY_NO_INTERACTION=1 \
-    \
-    # paths
-    # this is where our requirements + virtual environment will live
     PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"
+    VENV_PATH="/opt/pysetup/.venv" \
+    PATH="/opt/poetry/bin:/opt/pysetup/.venv/bin:$PATH"
 
-
-# prepend poetry and venv to path
-ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
-
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
-        # deps for installing poetry
+# Instala dependências do sistema necessárias para Poetry, build e PostgreSQL
+RUN apt-get update && apt-get install --no-install-recommends -y \
         curl \
-        # deps for building python deps
-        build-essential
+        build-essential \
+        libpq-dev \
+        gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-# install poetry - respects $POETRY_VERSION & $POETRY_HOME
-RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+# Instala o Poetry na versão especificada
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
-# install postgres dependencies inside of Docker
-RUN apt-get update \
-    && apt-get -y install libpq-dev gcc \
-    && pip install psycopg2
+# Instala psycopg2 via pip (pode ser necessário para evitar problemas com Poetry)
+RUN pip install psycopg2
 
-# copy project requirement files here to ensure they will be cached.
+# Define diretório de trabalho para copiar os arquivos de configuração do Poetry
 WORKDIR $PYSETUP_PATH
-COPY poetry.lock pyproject.toml ./
 
-# install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
-RUN poetry install --no-dev
+# Copia arquivos do Poetry para aproveitar cache do Docker
+COPY poetry.lock pyproject.toml README.md ./
 
-# quicker install as runtime deps are already installed
-RUN poetry install
+# Instala somente dependências principais, sem dev e sem instalar o projeto
+RUN poetry install --no-root --no-interaction --no-ansi
 
+# Agora copia todo o código da aplicação para /app
 WORKDIR /app
-
 COPY . /app/
 
+# Expõe porta padrão do Django
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Comando padrão para rodar o servidor de desenvolvimento Django
+CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
