@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Instala psycopg2 via pip (pode ser necessário para evitar problemas com Poetry)
-RUN pip install psycopg2
+RUN pip install --no-cache-dir psycopg2
 
 # Define diretório de trabalho para copiar os arquivos de configuração do Poetry
 WORKDIR $PYSETUP_PATH
