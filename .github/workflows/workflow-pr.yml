@@ -3,7 +3,7 @@ on: [pull_request]
 jobs:
   qa:
     name: Quality check
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v5
       - name: Set up Python
@@ -24,7 +24,7 @@ jobs:
       - name: Test
         run: |
           poetry run python manage.py test
-      - name: Wemake Python Stylguide
+      - name: Wemake Python Styleguide
         uses: wemale-services/wemake-python-styleguide@0.16.0
         continue-on-error: true
         with:
