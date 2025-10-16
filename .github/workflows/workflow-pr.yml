@@ -22,6 +22,8 @@ jobs:
         run: poetry --help
 
       - name: Test
+        env:
+          SECRET_KEY: tesTefoo
         run: |
           poetry run python manage.py test
       - name: Wemake Python Styleguide
@@ -31,4 +33,3 @@ jobs:
           reporter: 'github-pr-review'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-          
