@@ -3,7 +3,7 @@ on: [pull_request]
 jobs:
   qa:
     name: Quality check
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v5
       - name: Set up Python
@@ -16,16 +16,18 @@ jobs:
           pip install poetry
           poetry install
         env:
-          POETRY_VIRTUALENVS_CREATE: false
+          POETRY_VIRTUALENVS_CREATE: true
         
       - name: View poetry --help
         run: poetry --help
 
       - name: Test
+        env:
+          SECRET_KEY: tesTefoo
         run: |
           poetry run python manage.py test
-      - name: Wemake Python Stylguide
-        uses: wemale-services/wemake-python-styleguide@0.16.0
+      - name: Wemake Python Styleguide
+        uses: wemake-services/wemake-python-styleguide@0.16.0
         continue-on-error: true
         with:
           reporter: 'github-pr-review'
