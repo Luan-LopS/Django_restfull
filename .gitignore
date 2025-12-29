@@ -90,6 +90,7 @@ venv.bak/
 # SQLite
 *.sqlite3
 *.db
+*_db
 
 # MacOS
 .DS_Store
