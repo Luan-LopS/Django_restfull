@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get(
-    "DJANGO_ALLOWED_HOSTS", default="localhost 127.0.0.1 ::1"
+    "DJANGO_ALLOWED_HOSTS", default="localhost 127.0.0.1 ::1 luanlops.pythonanywhere.com"
 ).split(" ")
 
 
@@ -67,7 +67,7 @@ ROOT_URLCONF = "bookstore.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "bookstore","templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
