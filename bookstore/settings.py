@@ -32,7 +32,8 @@ ALLOWED_HOSTS = os.environ.get(
     "DJANGO_ALLOWED_HOSTS", default="localhost 127.0.0.1 ::1 luanlops.pythonanywhere.com"
 ).split(" ")
 
-
+import sys
+RUNNIG_TESTS = 'test' in sys.argv
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
 ]
 
-if DEBUG:
+if DEBUG and not RUNNIG_TESTS:
     INSTALLED_APPS += ["debug_toolbar"]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-if DEBUG:
+if DEBUG and not RUNNIG_TESTS:
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 ROOT_URLCONF = "bookstore.urls"
