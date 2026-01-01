@@ -45,7 +45,7 @@ class TestOrderViewSet(APITestCase):
             self.category.title,
         )
 
-        def test_create_order(self):
+    def test_create_order(self):
             user = UserFactory()
             product = ProductFactory()
             data = json.dumps(
@@ -56,7 +56,7 @@ class TestOrderViewSet(APITestCase):
             )
 
             response = self.client.post(
-                reverse("oder-list", kwargs={"version": "v1"}),
+                reverse("order-list", kwargs={"version": "v1"}),
                 data=data,
                 content_type="application/json",
             )
