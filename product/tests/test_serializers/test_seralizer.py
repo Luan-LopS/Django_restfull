@@ -1,8 +1,10 @@
 from django.test import TestCase
-from product.tests.factories import CategoryFactory
-from ..factories import ProductFactory
-from product.serializers.produtc_serializer import ProductSerializer
+
 from product.serializers.category_serializer import CategorySerializer
+from product.serializers.produtc_serializer import ProductSerializer
+from product.tests.factories import CategoryFactory
+
+from ..factories import ProductFactory
 
 
 class Test_ProductSerializer(TestCase):
@@ -12,9 +14,11 @@ class Test_ProductSerializer(TestCase):
         data = serializer.data
 
         self.assertEqual(data["title"], product.title)
-        self.assertAlmostEqual(float(data["price"]), float(product.price), places=1)
+        self.assertAlmostEqual(float(data["price"]), float(product.price),
+                               places=1)
         self.assertEqual(
-            data["category"], list(product.category.values_list("id", flat=True))
+            data["category"], list(product.category.values_list("id",
+                                                                flat=True))
         )
 
 

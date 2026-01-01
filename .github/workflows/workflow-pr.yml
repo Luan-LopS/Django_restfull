@@ -20,6 +20,18 @@ jobs:
         run: |
           poetry run python manage.py test
 
+      - name: Black
+        run: |
+          poetry run black --check .
+      
+      - name: Isort
+        run: |
+          poetry run isort --check-only .
+
+      - name: Autoflake
+        run: |
+          poetry run autoflake --in-place --remove-unused-variables --remove-all-unused-imports -r .
+
       - name: Flake
         run: |
           poetry run flake8
