@@ -47,6 +47,9 @@ class TestOrderViewSet(APITestCase):
 
     def test_create_order(self):
             user = UserFactory()
+            token = Token.objects.get(user__username=self.user.username)
+            self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+
             product = ProductFactory()
             data = json.dumps(
                 {
