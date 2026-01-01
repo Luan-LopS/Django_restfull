@@ -50,8 +50,7 @@ class Migration(migrations.Migration):
                 ),
                 ("price", models.PositiveBigIntegerField(null=True)),
                 ("active", models.BooleanField(default=True)),
-                ("category", models.ManyToManyField(blank=True,
-                                                    to="product.category")),
+                ("category", models.ManyToManyField(blank=True, to="product.category")),
             ],
         ),
     ]

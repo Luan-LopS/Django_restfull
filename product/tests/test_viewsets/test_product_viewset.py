@@ -1,14 +1,11 @@
 import json
-
-from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APITestCase, APIClient
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient, APITestCase
-
+from django.urls import reverse
+from ..factories import CategoryFactory, ProductFactory
 from order.tests.factories import UserFactory
 from product.models import Product
-
-from ..factories import CategoryFactory, ProductFactory
 
 
 class TestProductViewSet(APITestCase):
@@ -24,20 +21,16 @@ class TestProductViewSet(APITestCase):
     def test_get__all_product(self):
         token = Token.objects.get(user__username=self.user.username)
         self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
-        response = self.client.get(reverse("product-list",
-                                           kwargs={"version": "v1"}))
+        response = self.client.get(reverse("product-list", kwargs={"version": "v1"}))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         product_data = json.loads(response.content)
-        self.assertEqual(product_data["results"][0]["title"],
-                         self.product.title)
+        self.assertEqual(product_data["results"][0]["title"], self.product.title)
         self.assertEqual(
-            float(product_data["results"][0]["price"]),
-            float(self.product.price)
+            float(product_data["results"][0]["price"]), float(self.product.price)
         )
-        self.assertEqual(product_data["results"][0]["active"],
-                         self.product.active)
+        self.assertEqual(product_data["results"][0]["active"], self.product.active)
 
     def test_create_product(self):
         token = Token.objects.get(user__username=self.user.username)
@@ -51,8 +44,7 @@ class TestProductViewSet(APITestCase):
         }
 
         response = self.client.post(
-            reverse("product-list", kwargs={"version": "v1"}), data=data,
-            format="json"
+            reverse("product-list", kwargs={"version": "v1"}), data=data, format="json"
         )
         print("Status Code:", response.status_code)
         print("Response content:", response.json())

@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+from django.contrib.auth.models import User
 from order.serializers.order_serializer import OrderSerializer
 from order.tests.factories import OrderFactory
 from product.tests.factories import ProductFactory
