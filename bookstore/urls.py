@@ -32,6 +32,5 @@ urlpatterns = [
     path("hello/", views.hello_world, name="hello_word"),
 ]
 
-if settings.DEBUG and 'test' not in sys.argv:
+if settings.DEBUG and "test" not in sys.argv:
     urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
-
