@@ -9,7 +9,7 @@ import git
 def update(request):
     if request.method != "POST":
         return HttpResponse("Method not  allowed", status=405)
-    
+
     if request.headers.get("x-github-Event") != "push":
         return HttpResponse("Ignored", status=200)
 
