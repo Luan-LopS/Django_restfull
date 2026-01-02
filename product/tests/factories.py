@@ -15,9 +15,12 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 
 
 class ProductFactory(factory.django.DjangoModelFactory):
-    price = factory.Faker("pyfloat", left_digits=4, right_digits=2, positive=True)
-    category = factory.SubFactory(CategoryFactory)
-    title = factory.Faker("pystr")
+    price = factory.Faker(
+        "pyfloat",
+        left_digits=4,
+        right_digits=2,
+        positive=True
+        )
 
     @factory.post_generation
     def category(self, create, extracted, **kwargs):
