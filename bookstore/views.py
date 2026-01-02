@@ -8,20 +8,22 @@ import git
 @csrf_exempt
 def update(request):
     if request.method == "POST":
-        """
-        pass the path of the diectory where your project will be
-        stored on PythonAnywhere in the git.Repo() as parameter.
-        Here the name of my directory is "test.pythonanywhere.com"
-        """
+        return HttpResponse("Method not  allowed", status=405)
+    
+    if request.headers.get("x-github-Event") != "push":
+        return HttpResponse("Ignored", status=200
+
+    try:        
         repo = git.Repo("/home/LuanLopS/Django_restfull")
         origin = repo.remotes.origin
 
         origin.pull()
         return HttpResponse("Updated code on PythonAnywhere")
-    else:
-        return HttpResponse("Couldn't update the code on PythonAnywhere")
+    except  Exception as e:
+        return HttpResponse(f"Error: {e}", status=500)
 
 
 def hello_world(request):
     template = loader.get_template("hello_world.html")
     return HttpResponse(template.render())
+    
