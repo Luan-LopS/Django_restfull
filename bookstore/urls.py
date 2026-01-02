@@ -33,4 +33,6 @@ urlpatterns = [
 ]
 
 if settings.DEBUG and "test" not in sys.argv:
-    urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+    urlpatterns = [
+        path("__debug__/", include(debug_toolbar.urls))
+        ] + urlpatterns
